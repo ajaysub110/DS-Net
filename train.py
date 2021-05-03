@@ -32,11 +32,12 @@ from timm.scheduler import create_scheduler
 from dyn_slim.apis.train_slim_gate import validate_gate
 from dyn_slim.utils import model_profiling, setup_default_logging, CheckpointSaver, ModelEma, resume_checkpoint
 from dyn_slim.apis import train_epoch_slim, validate_slim, train_epoch_slim_gate
-from dataloader_gray import AddGaussianNoise
+from dataloader_gray import AddGaussianNoise, AllRandomNoise
 
 import torch
 import torch.nn as nn
 from torchvision.transforms import transforms
+from torchvision import datasets
 
 try:
     import apex
@@ -398,16 +399,19 @@ def main():
     if not os.path.exists(train_dir):
         logging.error('Training folder does not exist at: {}'.format(train_dir))
         exit(1)
+
     normalize = transforms.Normalize(mean=[0.4914, 0.4824, 0.4467],
         std=[0.2471, 0.2435, 0.2616])
-    dataset_train = Dataset(train_dir, transform=transforms.Compose([
-        transforms.RandomCrop(32, padding=4),
-        transforms.RandomHorizontalFlip(),
-        transforms.Grayscale(num_output_channels=3),
-        transforms.ToTensor(),
-        normalize,
-        AddGaussianNoise(0., 1.)
-    ]))
+
+    dataset_train = datasets.CIFAR10(train_dir, train=True, download=True,
+                                    transform=transforms.Compose([
+                                    transforms.RandomCrop(32, padding=4),
+                                    transforms.RandomHorizontalFlip(),
+                                    transforms.Grayscale(num_output_channels=3),
+                                    transforms.ToTensor(),
+                                    normalize,
+                                    AllRandomNoise(0.0, 0.05)
+                                    ]))
     collate_fn = None
     if num_aug_splits > 1:
         dataset_train = AugMixDataset(dataset_train, num_splits=num_aug_splits)
@@ -460,14 +464,15 @@ def main():
         if not os.path.isdir(eval_dir):
             logging.error('Validation folder does not exist at: {}'.format(eval_dir))
             exit(1)
-    dataset_eval = Dataset(eval_dir, transform=transforms.Compose([
-        transforms.RandomCrop(32, padding=4),
-        transforms.RandomHorizontalFlip(),
-        transforms.Grayscale(num_output_channels=3),
-        transforms.ToTensor(),
-        normalize,
-        AddGaussianNoise(0., 1.)
-    ]))
+    dataset_eval = datasets.CIFAR10(eval_dir, train=False, download=True,
+                                    transform=transforms.Compose([
+                                    transforms.RandomCrop(32, padding=4),
+                                    transforms.RandomHorizontalFlip(),
+                                    transforms.Grayscale(num_output_channels=3),
+                                    transforms.ToTensor(),
+                                    normalize,
+                                    AllRandomNoise(0.0, 0.05)
+                                    ]))
     loader_eval = create_loader(
         dataset_eval,
         input_size=data_config['input_size'],

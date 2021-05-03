@@ -506,10 +506,10 @@ def main():
         distill_loss_fn = None
 
     if args.local_rank == 0:
-        model_profiling(model, 224, 224, 1, 3,
+        model_profiling(model, 32, 32, 1, 3,
                         use_cuda=True, verbose=True)
     else:
-        model_profiling(model, 224, 224, 1, 3,
+        model_profiling(model, 32, 32, 1, 3,
                         use_cuda=True, verbose=False)
 
     if not args.test_mode:

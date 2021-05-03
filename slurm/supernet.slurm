@@ -11,8 +11,6 @@
 #SBATCH -c 3
 
 # activate conda env
-conda deactivate
-conda deactivate
 conda activate dsnet
 
 # run supernet training

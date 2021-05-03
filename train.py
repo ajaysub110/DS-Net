@@ -395,15 +395,10 @@ def main():
         logging.info('Scheduled epochs: {}'.format(num_epochs))
 
     # ------------- data --------------
-    train_dir = os.path.join(args.data, 'train')
-    if not os.path.exists(train_dir):
-        logging.error('Training folder does not exist at: {}'.format(train_dir))
-        exit(1)
-
     normalize = transforms.Normalize(mean=[0.4914, 0.4824, 0.4467],
         std=[0.2471, 0.2435, 0.2616])
 
-    dataset_train = datasets.CIFAR10(train_dir, train=True, download=True,
+    dataset_train = datasets.CIFAR10(args.data, train=True, download=True,
                                     transform=transforms.Compose([
                                     transforms.RandomCrop(32, padding=4),
                                     transforms.RandomHorizontalFlip(),
@@ -458,13 +453,7 @@ def main():
         pin_memory=args.pin_mem,
     )
 
-    eval_dir = os.path.join(args.data, 'val')
-    if not os.path.isdir(eval_dir):
-        eval_dir = os.path.join(args.data, 'validation')
-        if not os.path.isdir(eval_dir):
-            logging.error('Validation folder does not exist at: {}'.format(eval_dir))
-            exit(1)
-    dataset_eval = datasets.CIFAR10(eval_dir, train=False, download=True,
+    dataset_eval = datasets.CIFAR10(args.data, train=False, download=True,
                                     transform=transforms.Compose([
                                     transforms.RandomCrop(32, padding=4),
                                     transforms.RandomHorizontalFlip(),

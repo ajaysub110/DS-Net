@@ -27,9 +27,11 @@ warmup_epochs: 5
 workers: 10
 pretrained: false
 resume: ''
-no-prefetcher: true
 #no_resume_opt: true
 #start_epoch: 0
+# Modifications
+no_prefetcher: true
+num_classes: 10
 
 train_mode: all
 test_mode: false

@@ -26,7 +26,7 @@ validation_batch_size_multiplier: 4
 warmup_epochs: 0
 workers: 10
 pretrained: false
-resume: '' # Your supernet checkpoint
+resume: 'output/train-slimmable-slimmable_mbnet_v1_bn_uniform/20210503-051030-slimmable_mbnet_v1_bn_uniform/model_best.pth.tar' # Your supernet checkpoint
 no_resume_opt: true
 start_epoch: 0
 # Modifications

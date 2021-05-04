@@ -11,6 +11,7 @@
 #SBATCH -c 3
 
 # activate conda env
+source /misc/kcgscratch1/ajay_exp/miniconda3/etc/profile.d/conda.sh
 conda activate dsnet
 
 # run supernet training

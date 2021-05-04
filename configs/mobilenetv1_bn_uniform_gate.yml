@@ -29,6 +29,9 @@ pretrained: false
 resume: '' # Your supernet checkpoint after reset bn
 no_resume_opt: true
 start_epoch: 0
+# Modifications
+no_prefetcher: true
+num_classes: 10
 
 train_mode: gate
 test_mode: false

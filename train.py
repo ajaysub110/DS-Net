@@ -455,7 +455,7 @@ def main():
         pin_memory=args.pin_mem,
     )
 
-    all_stds = list(range(0.1, 3.0, 0.3))
+    all_stds = list(np.arange(0.1, 3.0, 0.3))
     dataset_eval = datasets.CIFAR10(args.data, train=False, download=True,
                                     transform=transforms.Compose([
                                     transforms.RandomCrop(32, padding=4),

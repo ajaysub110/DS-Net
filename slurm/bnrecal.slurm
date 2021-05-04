@@ -2,7 +2,6 @@
 #SBATCH --job-name=bnrecal
 #SBATCH --open-mode=append
 #SBATCH --output=./%j_%x.out
-#SBATCH --error=./%j_%x.err
 #SBATCH --export=ALL
 #SBATCH --time=10:00:00
 #SBATCH --gres=gpu:1

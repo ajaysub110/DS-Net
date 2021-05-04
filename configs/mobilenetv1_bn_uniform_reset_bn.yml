@@ -24,7 +24,7 @@ color_jitter: 0.06
 amp: false
 validation_batch_size_multiplier: 4
 warmup_epochs: 0
-workers: 10
+workers: 1
 pretrained: false
 resume: 'output/train-slimmable-slimmable_mbnet_v1_bn_uniform/20210503-051030-slimmable_mbnet_v1_bn_uniform/model_best.pth.tar' # Your supernet checkpoint
 no_resume_opt: true

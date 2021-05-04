@@ -1,0 +1,43 @@
+pin_mem: True
+model: slimmable_mbnet_v1_bn_uniform
+num_choice: 14
+
+sync_bn: false
+opt: sgd
+sched: cosine
+epochs: 30
+warmup_lr: 1e-5
+weight_decay: 0.01
+drop: 0.2
+model_ema: false
+model_ema_decay: 0.997
+lr: 0.08
+batch_size: 64
+optimizer_step: 1 # step optimizer every * training steps to simulate large batch
+drop-path: 0.0
+aa: rand-m9-mstd0.5
+remode: pixel
+reprob: 0.2
+smoothing: 0.1
+mixup: 0.
+color_jitter: 0.06
+amp: false
+validation_batch_size_multiplier: 4
+warmup_epochs: 0
+workers: 10
+pretrained: false
+resume: 'output/train-dynamic-slimmable-slimmable_mbnet_v1_bn_uniform/20210504-015135-slimmable_mbnet_v1_bn_uniform/model_best.pth.tar' # Your supernet checkpoint
+no_resume_opt: true
+start_epoch: 0
+# Modifications
+no_prefetcher: true
+num_classes: 10
+
+train_mode: gate
+test_mode: true
+
+slim_train: true
+ieb: false
+gate_train: false
+dist_bn: reduce
+reset_bn: false

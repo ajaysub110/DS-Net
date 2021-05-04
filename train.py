@@ -62,6 +62,8 @@ parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 # Dataset / Model parameters
 parser.add_argument('data', metavar='DIR',
                     help='path to dataset')
+parser.add_argument('--sweep-step', default=-1, type=int,
+                    help='SLURM sweep step')
 parser.add_argument('--model', default='resnet101', type=str, metavar='MODEL',
                     help='Name of model to train (default: "countception"')
 parser.add_argument('--pretrained', action='store_true', default=False,
@@ -453,6 +455,7 @@ def main():
         pin_memory=args.pin_mem,
     )
 
+    all_stds = list(range(0.1, 3.0, 0.3))
     dataset_eval = datasets.CIFAR10(args.data, train=False, download=True,
                                     transform=transforms.Compose([
                                     transforms.RandomCrop(32, padding=4),
@@ -460,7 +463,7 @@ def main():
                                     transforms.Grayscale(num_output_channels=3),
                                     transforms.ToTensor(),
                                     normalize,
-                                    AllRandomNoise(0.0, 0.05)
+                                    AddGaussianNoise(0.0, all_stds[args.sweep_step - 1])
                                     ]))
     loader_eval = create_loader(
         dataset_eval,

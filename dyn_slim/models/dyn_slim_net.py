@@ -164,6 +164,7 @@ class DSNet(nn.Module):
             num_classes) if num_classes else None
 
     def forward_features(self, x):
+        x = x.float().cuda()
         x = self.conv_stem(x)
         x = self.bn1(x)
         x = self.act1(x)
